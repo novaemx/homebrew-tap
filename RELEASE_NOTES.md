@@ -1,10 +1,9 @@
-# Release 0.0.1
+# Release 0.0.2
 
 **Date:** 2026-04-21
 
-## Changes
+## What's New
 
-- Initialize gitflow workspace
-- Initial version 0.0.1
-- README.md inclusiony
+- Add installation instructions for gitflow-helper
+- Add Getting Started section to README
 
