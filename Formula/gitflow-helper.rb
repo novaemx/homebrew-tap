@@ -8,7 +8,7 @@ class GitflowHelper < Formula
   license "MIT"
 
   url "https://github.com/novaemx/gitflow-helper/releases/download/v0.5.40/gitflow-0.5.40-darwin-universal.tar.gz"
-  sha256 "cf6fab27f1096a06147e688003dbdaabba8c9cedacc72e16ff63b37fd55bcd2d"
+  sha256 "f83504e5dd54fd601aeecc68590017f2dec26ab76c51137e4e65733e115fd8e9"
 
   depends_on "git"
 
