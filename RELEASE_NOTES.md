@@ -1,14 +1,14 @@
-# Release 0.0.3
+# Release 0.0.4
 
 **Date:** 2026-04-21
 
 ## What's New
 
+- Merge feature 'checksum-fix' into develop
 - Merge feature 'fix-checksum' into develop
-- Add installation instructions for gitflow-helper
-- Add Getting Started section to README
 
 ## Bug Fixes
 
+- Fix checksum
 - Fix mismatch on checksum
 
