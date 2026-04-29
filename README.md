@@ -81,5 +81,6 @@ Use `make gitflow-auto` (or `make wizard-auto`) to run an interactive GitFlow se
 3. Starts release branch from `develop` using `VERSION`.
 	- If the tag already exists, it automatically uses the next patch version.
 4. Runs release validation.
-5. Finishes release/hotfix.
-6. Executes backmerge and pushes release artifacts.
+5. If `main` is ahead of `develop`, it performs backmerge automatically before finish.
+6. Finishes release/hotfix.
+7. Executes backmerge and pushes release artifacts.
