@@ -76,6 +76,7 @@ make gitflow-auto
 Use `make gitflow-auto` (or `make wizard-auto`) to run an interactive GitFlow sequence from feature work to release publication:
 
 1. Runs CI checks.
+	- If pending changes exist, it auto-creates a feature branch when needed and creates a checkpoint commit.
 2. Finishes feature/bugfix branch when applicable.
 3. Starts release branch from `develop` using `VERSION`.
 	- If the tag already exists, it automatically uses the next patch version.
