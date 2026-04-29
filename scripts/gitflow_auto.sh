@@ -42,8 +42,60 @@ ensure_clean_repo() {
   fi
 }
 
+next_patch_version() {
+  local current="$1"
+  local major minor patch
+  IFS='.' read -r major minor patch <<< "$current"
+  patch="${patch:-0}"
+  echo "${major}.${minor}.$((patch + 1))"
+}
+
+release_tag_exists() {
+  local version="$1"
+  git rev-parse --verify "refs/tags/v${version}^{commit}" >/dev/null 2>&1
+}
+
+ensure_release_metadata() {
+  local version="$1"
+  local date_now
+  local current_header
+
+  date_now="$(date +%Y-%m-%d)"
+
+  echo "$version" > VERSION
+
+  if [[ -f RELEASE_NOTES.md ]]; then
+    current_header="$(head -n 1 RELEASE_NOTES.md || true)"
+  else
+    current_header=""
+  fi
+
+  if [[ "$current_header" != "# Release $version" ]]; then
+    cat > RELEASE_NOTES.md <<EOF
+# Release $version
+
+**Date:** $date_now
+
+## What's New
+
+- GitFlow wizard automation and CI reliability improvements.
+
+## Improvements
+
+- Wizard now supports full end-to-end flow with release fallback.
+- GitHub Actions script execution reliability improved for Linux runners.
+EOF
+  fi
+
+  git add VERSION RELEASE_NOTES.md
+  if ! git diff --cached --quiet; then
+    git commit -m "chore: bump version to $version"
+  fi
+}
+
 CURRENT_BRANCH="$(git branch --show-current)"
 VERSION="$(tr -d '[:space:]' < VERSION)"
+TARGET_VERSION="$VERSION"
 
 cat <<EOF
 GitFlow automation wizard
@@ -87,11 +139,21 @@ fi
 
 CURRENT_BRANCH="$(git branch --show-current)"
 if [[ "$CURRENT_BRANCH" == "develop" ]]; then
-  if git show-ref --verify --quiet "refs/heads/release/$VERSION"; then
-    run_phase "Phase 3 - Checkout existing release" "git checkout release/$VERSION"
-  else
-    run_phase "Phase 3 - Start release" "gitflow --json start release $VERSION"
+  if release_tag_exists "$TARGET_VERSION"; then
+    TARGET_VERSION="$(next_patch_version "$TARGET_VERSION")"
+    while release_tag_exists "$TARGET_VERSION"; do
+      TARGET_VERSION="$(next_patch_version "$TARGET_VERSION")"
+    done
+    echo "Release tag v$VERSION already exists. Using next available version: $TARGET_VERSION"
   fi
+
+  if git show-ref --verify --quiet "refs/heads/release/$TARGET_VERSION"; then
+    run_phase "Phase 3 - Checkout existing release" "git checkout release/$TARGET_VERSION"
+  else
+    run_phase "Phase 3 - Start release" "gitflow --json start release $TARGET_VERSION"
+  fi
+
+  run_phase "Phase 3.1 - Sync release metadata" "ensure_release_metadata $TARGET_VERSION"
 else
   echo
   echo "== Phase 3 - Start release (skipped) =="
