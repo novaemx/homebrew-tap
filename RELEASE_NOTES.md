@@ -4,9 +4,12 @@
 
 ## What's New
 
-- GitFlow wizard automation and CI reliability improvements.
+- Merge feature 'auto-formulas-20260429-172854' into develop
+- Merge feature 'gitflow-auto-version-fallback' into develop
+- Squash(feature): makefile-wizard-logic-fix
 
-## Improvements
+## Bug Fixes
 
-- Wizard now supports full end-to-end flow with release fallback.
-- GitHub Actions script execution reliability improved for Linux runners.
+- Auto-backmerge before release finish
+- Fallback to next patch release version
+
