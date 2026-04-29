@@ -1,13 +1,12 @@
-# Release 0.5.43
+# Release 0.5.44
 
 **Date:** 2026-04-29
 
 ## What's New
 
-- Squash(feature): tap-publish-validation-automation
-- Merge feature 'fix-sha' into develop
+- GitFlow wizard automation and CI reliability improvements.
 
-## Bug Fixes
+## Improvements
 
-- Fix-sha
-
+- Wizard now supports full end-to-end flow with release fallback.
+- GitHub Actions script execution reliability improved for Linux runners.
