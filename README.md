@@ -78,6 +78,7 @@ Use `make gitflow-auto` (or `make wizard-auto`) to run an interactive GitFlow se
 1. Runs CI checks.
 2. Finishes feature/bugfix branch when applicable.
 3. Starts release branch from `develop` using `VERSION`.
+	- If the tag already exists, it automatically uses the next patch version.
 4. Runs release validation.
 5. Finishes release/hotfix.
 6. Executes backmerge and pushes release artifacts.
