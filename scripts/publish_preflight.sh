@@ -36,11 +36,25 @@ fi
 
 tag="v$version"
 
+current_branch="$(git branch --show-current)"
+if [[ -n "$current_branch" ]]; then
+  case "$current_branch" in
+    main|release/*|hotfix/*)
+      ;;
+    *)
+      echo "Invalid publish branch context: $current_branch" >&2
+      echo "Use main, release/*, or hotfix/* for strict publish preflight." >&2
+      exit 1
+      ;;
+  esac
+fi
+
 git rev-parse --verify "refs/tags/$tag^{commit}" >/dev/null
 
 remote_tag_count="$(git ls-remote --tags origin "refs/tags/$tag" "refs/tags/$tag^{}" | wc -l | tr -d '[:space:]')"
 if [[ "$remote_tag_count" -lt 1 ]]; then
   echo "Remote tag missing: $tag" >&2
+  echo "Push tag first: git push origin $tag" >&2
   exit 1
 fi
 
@@ -49,18 +63,6 @@ tag_commit="$(git rev-list -n 1 "$tag")"
 if ! git branch -r --contains "$tag_commit" | grep -q "origin/main"; then
   echo "Tag commit is not reachable from origin/main: $tag" >&2
   exit 1
-fi
-
-current_branch="$(git branch --show-current)"
-if [[ -n "$current_branch" ]]; then
-  case "$current_branch" in
-    main|release/*|hotfix/*)
-      ;;
-    *)
-      echo "Invalid publish branch context: $current_branch" >&2
-      exit 1
-      ;;
-  esac
 fi
 
 echo "Publish preflight passed for tag: $tag"
