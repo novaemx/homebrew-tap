@@ -42,6 +42,37 @@ ensure_clean_repo() {
   fi
 }
 
+prepare_working_tree() {
+  local branch
+  local auto_name
+
+  if [[ -z "$(git status --porcelain)" ]]; then
+    return 0
+  fi
+
+  branch="$(git branch --show-current)"
+
+  case "$branch" in
+    develop|main)
+      auto_name="auto-formulas-$(date +%Y%m%d-%H%M%S)"
+      echo "Detected uncommitted changes on $branch. Creating feature/$auto_name for GitFlow compliance."
+      gitflow --json start feature "$auto_name"
+      ;;
+    feature/*|bugfix/*|release/*|hotfix/*)
+      echo "Detected uncommitted changes on $branch. Creating checkpoint commit."
+      ;;
+    *)
+      echo "Unsupported branch context with pending changes: $branch" >&2
+      exit 1
+      ;;
+  esac
+
+  git add -A
+  if ! git diff --cached --quiet; then
+    git commit -m "chore: checkpoint pending formula updates"
+  fi
+}
+
 next_patch_version() {
   local current="$1"
   local major minor patch
@@ -103,7 +134,9 @@ Branch: $CURRENT_BRANCH
 Version: $VERSION
 EOF
 
-ensure_clean_repo
+prepare_working_tree
+CURRENT_BRANCH="$(git branch --show-current)"
+
 run_phase "Phase 1 - Validate branch changes" "make ci"
 if ! confirm_continue "Continue to next phase?"; then
   echo "Stopped by user after Phase 1."
