@@ -37,7 +37,7 @@ git push -u origin main >/dev/null
 git tag v0.1.0
 git push origin v0.1.0 >/dev/null
 
-if ! "$ROOT_DIR/scripts/publish_preflight.sh" --repo "$tmp_repo" --version 0.1.0 >/dev/null; then
+if ! bash "$ROOT_DIR/scripts/publish_preflight.sh" --repo "$tmp_repo" --version 0.1.0 >/dev/null; then
   echo "FAIL: publish_preflight should pass for valid release context"
   exit 1
 fi

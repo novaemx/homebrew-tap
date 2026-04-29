@@ -15,6 +15,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Ensure scripts are executable
+        run: |
+          chmod +x scripts/*.sh scripts/lib/*.sh tests/*.sh tests/unit/*.sh tests/integration/*.sh tests/e2e/*.sh || true
+
       - name: Run script tests
         run: bash tests/run_tests.sh
 

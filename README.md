@@ -53,6 +53,31 @@ GitHub Actions runs:
 make test
 make validate
 make preflight
+make preflight-publish
 make publish-check
+make push-ready
 make release-ready
+make push-branch
+make push-release
+make push-all
+make wizard-auto
+make flow-status
+make flow-finish-work
+make flow-start-release
+make flow-finish-release
+make flow-backmerge
+make gitflow-auto
 ```
+
+`make wizard-auto` runs the full guided GitFlow process end-to-end (feature/bugfix finish, release start/finish, backmerge, push) and asks whether to continue after each successful phase.
+
+## GitFlow End-To-End
+
+Use `make gitflow-auto` (or `make wizard-auto`) to run an interactive GitFlow sequence from feature work to release publication:
+
+1. Runs CI checks.
+2. Finishes feature/bugfix branch when applicable.
+3. Starts release branch from `develop` using `VERSION`.
+4. Runs release validation.
+5. Finishes release/hotfix.
+6. Executes backmerge and pushes release artifacts.
