@@ -35,6 +35,24 @@ run_phase() {
   echo "Phase completed: $label"
 }
 
+get_main_ahead_of_develop() {
+  local value
+  value="$(gitflow --json status | sed -n 's/.*"main_ahead_of_develop":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)"
+  echo "${value:-0}"
+}
+
+ensure_pre_finish_backmerge() {
+  local release_branch="$1"
+  local ahead
+
+  ahead="$(get_main_ahead_of_develop)"
+  if [[ "$ahead" -gt 0 ]]; then
+    echo "main is ahead of develop by $ahead commit(s); running pre-finish backmerge."
+    run_phase "Phase 4.5 - Pre-finish backmerge" "gitflow --json backmerge"
+    run_phase "Phase 4.6 - Return to release branch" "git checkout $release_branch"
+  fi
+}
+
 ensure_clean_repo() {
   if [[ -n "$(git status --porcelain)" ]]; then
     echo "Working tree is not clean. Commit or stash changes before running gitflow automation." >&2
@@ -216,6 +234,7 @@ fi
 
 CURRENT_BRANCH="$(git branch --show-current)"
 if [[ "$CURRENT_BRANCH" == release/* || "$CURRENT_BRANCH" == hotfix/* ]]; then
+  ensure_pre_finish_backmerge "$CURRENT_BRANCH"
   run_phase "Phase 5 - Finish release/hotfix" "gitflow --json finish"
 else
   echo
