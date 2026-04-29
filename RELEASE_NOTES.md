@@ -4,9 +4,11 @@
 
 ## What's New
 
-- GitFlow wizard automation and CI reliability improvements.
+- Merge feature 'gitflow-auto-version-fallback' into develop
+- Squash(feature): makefile-wizard-logic-fix
+- Squash(feature): tap-publish-validation-automation
 
-## Improvements
+## Bug Fixes
 
-- Wizard now supports full end-to-end flow with release fallback.
-- GitHub Actions script execution reliability improved for Linux runners.
+- Fallback to next patch release version
+
