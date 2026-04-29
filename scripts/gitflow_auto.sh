@@ -35,10 +35,59 @@ run_phase() {
   echo "Phase completed: $label"
 }
 
+get_main_ahead_of_develop() {
+  local value
+  value="$(gitflow --json status | sed -n 's/.*"main_ahead_of_develop":[[:space:]]*\([0-9][0-9]*\).*/\1/p' | head -n 1)"
+  echo "${value:-0}"
+}
+
+ensure_pre_finish_backmerge() {
+  local release_branch="$1"
+  local ahead
+
+  ahead="$(get_main_ahead_of_develop)"
+  if [[ "$ahead" -gt 0 ]]; then
+    echo "main is ahead of develop by $ahead commit(s); running pre-finish backmerge."
+    run_phase "Phase 4.5 - Pre-finish backmerge" "gitflow --json backmerge"
+    run_phase "Phase 4.6 - Return to release branch" "git checkout $release_branch"
+  fi
+}
+
 ensure_clean_repo() {
   if [[ -n "$(git status --porcelain)" ]]; then
     echo "Working tree is not clean. Commit or stash changes before running gitflow automation." >&2
     exit 1
+  fi
+}
+
+prepare_working_tree() {
+  local branch
+  local auto_name
+
+  if [[ -z "$(git status --porcelain)" ]]; then
+    return 0
+  fi
+
+  branch="$(git branch --show-current)"
+
+  case "$branch" in
+    develop|main)
+      auto_name="auto-formulas-$(date +%Y%m%d-%H%M%S)"
+      echo "Detected uncommitted changes on $branch. Creating feature/$auto_name for GitFlow compliance."
+      gitflow --json start feature "$auto_name"
+      ;;
+    feature/*|bugfix/*|release/*|hotfix/*)
+      echo "Detected uncommitted changes on $branch. Creating checkpoint commit."
+      ;;
+    *)
+      echo "Unsupported branch context with pending changes: $branch" >&2
+      exit 1
+      ;;
+  esac
+
+  git add -A
+  if ! git diff --cached --quiet; then
+    git commit -m "chore: checkpoint pending formula updates"
   fi
 }
 
@@ -103,7 +152,9 @@ Branch: $CURRENT_BRANCH
 Version: $VERSION
 EOF
 
-ensure_clean_repo
+prepare_working_tree
+CURRENT_BRANCH="$(git branch --show-current)"
+
 run_phase "Phase 1 - Validate branch changes" "make ci"
 if ! confirm_continue "Continue to next phase?"; then
   echo "Stopped by user after Phase 1."
@@ -183,6 +234,7 @@ fi
 
 CURRENT_BRANCH="$(git branch --show-current)"
 if [[ "$CURRENT_BRANCH" == release/* || "$CURRENT_BRANCH" == hotfix/* ]]; then
+  ensure_pre_finish_backmerge "$CURRENT_BRANCH"
   run_phase "Phase 5 - Finish release/hotfix" "gitflow --json finish"
 else
   echo
