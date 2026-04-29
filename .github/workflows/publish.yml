@@ -1,0 +1,63 @@
+name: Publish Tap Update
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version without v prefix (example: 0.5.43)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            ver="${{ github.event.inputs.version }}"
+          else
+            ver="${GITHUB_REF_NAME#v}"
+          fi
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          echo "tag=v$ver" >> "$GITHUB_OUTPUT"
+
+      - name: Validate formulas
+        run: bash scripts/validate_formulas.sh
+
+      - name: Publish preflight
+        run: bash scripts/publish_preflight.sh --version "${{ steps.version.outputs.version }}"
+
+      - name: Build release notes summary
+        id: notes
+        shell: bash
+        run: |
+          {
+            echo "body<<EOF"
+            echo "Automated tap publish validation succeeded."
+            echo
+            echo "Updated formulas:"
+            ls Formula/*.rb | sed 's#^#- #' 
+            echo
+            echo "Version: ${{ steps.version.outputs.version }}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "${{ steps.version.outputs.tag }}"
+          name: "Tap Release ${{ steps.version.outputs.tag }}"
+          body: "${{ steps.notes.outputs.body }}"
