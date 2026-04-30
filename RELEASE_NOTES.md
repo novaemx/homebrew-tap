@@ -2,7 +2,8 @@
 
 **Date:** 2026-04-30
 
-## What's New
+## Bug Fixes
 
-- Update tap to publish gitflow-helper v0.5.51 formula artifact
+- Merge bugfix 'tap-latest-formula' into develop
+- Update formula to v0.5.51
 
