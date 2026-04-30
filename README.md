@@ -42,10 +42,7 @@ git push origin main
 git push origin v<x.y.z>
 ```
 
-GitHub Actions runs:
-
-- `.github/workflows/validate.yml` on pushes/PRs for validation and tests
-- `.github/workflows/publish.yml` on release tags (or manual dispatch) to validate and publish a GitHub release entry
+This repository uses a local-only release flow. Validation and publish steps are executed via local scripts and `make` targets.
 
 ## Makefile Shortcuts
 
