@@ -1,8 +1,12 @@
-# Release 0.5.47
+# Release 0.5.48
 
 **Date:** 2026-04-29
 
 ## What's New
 
-- Merge feature 'ubuntu-free-runners' into develop
+- GitFlow wizard automation and CI reliability improvements.
 
+## Improvements
+
+- Wizard now supports full end-to-end flow with release fallback.
+- GitHub Actions script execution reliability improved for Linux runners.
