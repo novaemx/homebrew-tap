@@ -1,8 +1,8 @@
-# Release 0.5.48
+# Release 0.5.51
 
-**Date:** 2026-04-29
+**Date:** 2026-04-30
 
 ## What's New
 
-- Merge feature 'ubuntu-free-runners' into develop
+- Update tap to publish gitflow-helper v0.5.51 formula artifact
 
