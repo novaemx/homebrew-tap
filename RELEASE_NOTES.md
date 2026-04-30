@@ -4,9 +4,5 @@
 
 ## What's New
 
-- GitFlow wizard automation and CI reliability improvements.
+- Merge feature 'ubuntu-free-runners' into develop
 
-## Improvements
-
-- Wizard now supports full end-to-end flow with release fallback.
-- GitHub Actions script execution reliability improved for Linux runners.
