@@ -1,8 +1,9 @@
-# Release 0.5.48
+# Release 0.5.51
 
-**Date:** 2026-04-29
+**Date:** 2026-04-30
 
-## What's New
+## Bug Fixes
 
-- Merge feature 'ubuntu-free-runners' into develop
+- Merge bugfix 'tap-latest-formula' into develop
+- Update formula to v0.5.51
 
