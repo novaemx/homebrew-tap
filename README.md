@@ -9,12 +9,6 @@ brew tap novaemx/tap
 brew install novaemx/tap/gitflow
 ```
 
-Alternative token kept for backward compatibility:
-
-```bash
-brew install novaemx/tap/gitflow-helper
-```
-
 ## Add Another Formula
 
 1. Add a new Ruby formula file in `Formula/`.

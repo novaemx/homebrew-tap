@@ -6,8 +6,6 @@ class Gitflow < Formula
   sha256 "aed4e039d02a3c05329c76a2823c415910b2448628af8a45597a8a8c1310adcb"
   license "MIT"
 
-  conflicts_with "gitflow-helper", because: "both formulas install the gitflow binary"
-
   def install
     bin.install "gitflow"
   end
