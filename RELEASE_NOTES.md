@@ -1,16 +1,12 @@
-# Release 0.5.53
+# Release 0.5.54
 
 **Date:** 2026-04-30
 
-## Bug Fixes
+## What's New
 
-- Merge bugfix 'cleanup-single-formula' into develop
-- Merge bugfix 'brew-token-gitflow' into develop
-- Publish gitflow formula token
-- Merge bugfix 'tap-latest-formula' into develop
-- Update formula to v0.5.51
+- GitFlow wizard automation and CI reliability improvements.
 
 ## Improvements
 
-- Keep single gitflow formula
-
+- Wizard now supports full end-to-end flow with release fallback.
+- GitHub Actions script execution reliability improved for Linux runners.
