@@ -4,9 +4,15 @@
 
 ## What's New
 
-- GitFlow wizard automation and CI reliability improvements.
+- Merge feature 'auto-formulas-20260430-200332' into develop
+
+## Bug Fixes
+
+- Merge bugfix 'cleanup-single-formula' into develop
+- Merge bugfix 'brew-token-gitflow' into develop
+- Publish gitflow formula token
 
 ## Improvements
 
-- Wizard now supports full end-to-end flow with release fallback.
-- GitHub Actions script execution reliability improved for Linux runners.
+- Keep single gitflow formula
+
