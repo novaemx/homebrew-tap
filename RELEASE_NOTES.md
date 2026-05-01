@@ -4,9 +4,6 @@
 
 ## What's New
 
-- GitFlow wizard automation and CI reliability improvements.
+- Merge feature 'auto-formulas-20260501-134831' into develop
+- Merge feature 'auto-formulas-20260430-200332' into develop
 
-## Improvements
-
-- Wizard now supports full end-to-end flow with release fallback.
-- GitHub Actions script execution reliability improved for Linux runners.
