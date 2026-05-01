@@ -6,7 +6,13 @@ This repository is the shared tap for one or more formulas.
 
 ```bash
 brew tap novaemx/tap
-brew install gitflow-helper
+brew install novaemx/tap/gitflow
+```
+
+Alternative token kept for backward compatibility:
+
+```bash
+brew install novaemx/tap/gitflow-helper
 ```
 
 ## Add Another Formula
