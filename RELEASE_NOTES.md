@@ -1,9 +1,12 @@
-# Release 0.5.55
+# Release 0.5.56
 
-**Date:** 2026-05-01
+**Date:** 2026-05-04
 
 ## What's New
 
-- Merge feature 'auto-formulas-20260501-134831' into develop
-- Merge feature 'auto-formulas-20260430-200332' into develop
+- GitFlow wizard automation and CI reliability improvements.
 
+## Improvements
+
+- Wizard now supports full end-to-end flow with release fallback.
+- GitHub Actions script execution reliability improved for Linux runners.
