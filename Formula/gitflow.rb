@@ -3,7 +3,7 @@ class Gitflow < Formula
   homepage "https://github.com/novaemx/gitflow-helper"
   url "https://github.com/novaemx/gitflow-helper/releases/download/v0.6.1/gitflow-0.6.1-darwin-universal.tar.gz"
   version "0.6.1"
-  sha256 "31f1e3df14187e16255ad5d7bb4fdb3866f810b6fb8c541c502256b710bac255"
+  sha256 "01997bd735be49a75333836c86a230a7381a59455059bb529aa21a8682a4cd3f"
   license "MIT"
 
   def install
