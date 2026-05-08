@@ -1,9 +1,9 @@
 class Treesize < Formula
   desc "Native macOS disk usage analyzer inspired by TreeSize"
   homepage "https://github.com/novaemx/treesize-mac"
-  url "https://github.com/novaemx/treesize/releases/download/v0.1.15/treesize-0.1.15-darwin-universal.tar.gz"
-  version "0.1.15"
-  sha256 "8c7f4a1a93e98c8b1b6650ff86fd2db61dc0604b3a8c54fef8808d776948d2e2"
+  url "https://github.com/novaemx/treesize/releases/download/v0.1.16/treesize-0.1.16-darwin-universal.tar.gz"
+  version "0.1.16"
+  sha256 "25a433c6b5a18fbbe1e6367ee37da3625c5720eb083562d512d6c32e2313e120"
   license "MIT"
 
   def install
